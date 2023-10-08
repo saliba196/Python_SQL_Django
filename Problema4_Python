@@ -1,0 +1,26 @@
+import pandas as pd
+
+base_comum = pd.read_excel("BaseComum.xlsx")
+licencas_especiais = pd.read_excel("LicencasEspeciais.xlsx")
+
+nao_encontrados = []
+
+for index, row in base_comum.iterrows():
+    # Extrair as informações relevantes
+    licenca = row['Licenca']
+    hora_inicial = row['Hora Inicial']
+    hora_final = row['Hora Final']
+    usuario_correspondente = None
+    for index, licenca_row in licencas_especiais.iterrows():
+        if (licenca_row['Hora Inicial'] <= hora_inicial) and (licenca_row['Hora Final'] >= hora_final):
+            usuario_correspondente = licenca_row['Usuario']
+            break
+
+    if usuario_correspondente:
+        base_comum.at[index, 'Username'] = usuario_correspondente
+    else:
+        nao_encontrados.append(licenca)
+base_comum.to_excel("BaseComumAtualizada.xlsx", index=False)
+
+nao_encontrados_df = pd.DataFrame({'Licenca': nao_encontrados})
+nao_encontrados_df.to_excel("LicencasNaoEncontradas.xlsx", index=False)
