@@ -1,0 +1,3 @@
+Select products.name, count(products.amount)
+from products, categories
+where products.idcategories = categories.id
