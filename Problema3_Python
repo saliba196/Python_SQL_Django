@@ -1,0 +1,13 @@
+import pandas as pd
+
+df = pd.read_excel("DadosLicencas1.xlsx")
+
+df['Hora Inicial'] = pd.to_datetime(df['Hora Inicial'])
+df['Hora Final'] = pd.to_datetime(df['Hora Final'])
+
+df['Tempo de Uso'] = (df['Hora Final'] - df['Hora Inicial']).dt.total_seconds() / 3600  # horas
+resultado = df.groupby(['ID_Usuario', 'Dia', 'Licenca'])['Tempo de Uso'].sum().reset_index()
+
+resultado.rename(columns={'Tempo de Uso': 'Tempo de uso'}, inplace=True)
+
+resultado.to_excel("ResultadoLicencas.xlsx", index=False)
