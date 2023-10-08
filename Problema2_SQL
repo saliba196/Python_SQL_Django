@@ -1,4 +1,4 @@
-Select products.name categories.name
+Select products.name, categories.name
 from products, categories
 where products.id_categories = categories.id
 /* já é padrão do SQL ordenar por ordem crescente, por isso não foi adicionado no código */
