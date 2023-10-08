@@ -1,0 +1,14 @@
+#NP = Numero de peças que deveriam vir
+NP = int(input())
+
+# Leitura da 2* linha de entrada
+SomaPecasFornecidas = sum(map(int, input().split()))
+
+# Soma esperada dos números de 1 a N
+SomaEsperada = (NP * (NP + 1)) // 2
+
+#o N* da peca que falta sera a diferenca entre a soma esperada e o valor real
+PecaFaltante = SomaEsperada - SomaPecasFornecidas
+
+#Resultado
+print(PecaFaltante)
