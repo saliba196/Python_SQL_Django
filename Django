@@ -1,0 +1,31 @@
+from django.db import models
+from django.contrib.auth.models import User
+
+class Empresa(models.Model):
+    nome = models.CharField(max_length=100)
+    descricao = models.TextField()
+    criador = models.ForeignKey(User, on_delete=models.CASCADE, related_name='empresas_criadas')
+    membros = models.ManyToManyField(User, related_name='empresas')
+
+class Projeto(models.Model):
+    nome = models.CharField(max_length=100)
+    descricao = models.TextField()
+    criador = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projetos_criados')
+    membros = models.ManyToManyField(User, related_name='projetos')
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+ from django.shortcuts import render, redirect
+from .models import Empresa, Projeto
+
+def listar_empresas(request):
+    empresas = Empresa.objects.filter(membros=request.user)
+    return render(request, 'listar_empresas.html', {'empresas': empresas})
+
+def criar_empresa(request):
+    if request.method == 'POST':
+        nova_empresa = Empresa(nome=request.POST['nome'], descricao=request.POST['descricao'], criador=request.user)
+        nova_empresa.save()
+        return redirect('listar_empresas')
+
+    return render(request, 'criar_empresa.html')
