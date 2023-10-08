@@ -1,30 +1,14 @@
-# Inicialize dicionários para contar as botas por tamanho e pé
 botas_direito = {}
 botas_esquerdo = {}
-
-# Ler o número de botas entregues
 N = int(input())
-
-# Inicialize a contagem de pares corretos
 pares_corretos = 0
-
-# Ler e contar as botas
 for _ in range(N):
     tamanho, pe = input().split()
     tamanho = int(tamanho)
-    
-    # Verificar se a bota é do pé direito (D) ou esquerdo (E)
     if pe == 'D':
-        # Se for pé direito, incrementar o contador de botas direitas
         botas_direito[tamanho] = botas_direito.get(tamanho, 0) + 1
     elif pe == 'E':
-        # Se for pé esquerdo, incrementar o contador de botas esquerdas
         botas_esquerdo[tamanho] = botas_esquerdo.get(tamanho, 0) + 1
-
-# Contar pares corretos
 for tamanho, quantidade in botas_direito.items():
-    # Para cada tamanho de bota direita, verificar se existe uma bota esquerda correspondente
     pares_corretos += min(quantidade, botas_esquerdo.get(tamanho, 0))
-
-# Imprimir o número de pares corretos
 print(pares_corretos)
